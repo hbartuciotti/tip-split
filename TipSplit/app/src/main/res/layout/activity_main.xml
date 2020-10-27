@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mainViewmodel"
+            type="com.bartuciotti.tipsplit.MainViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            app:cardCornerRadius="@dimen/default_radius"
+            app:cardElevation="@dimen/default_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:orientation="vertical">
+
+                <me.abhinay.input.CurrencyEditText
+                    android:id="@+id/etInput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="@string/enter_amount"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:text="@{mainViewmodel.bill}"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/topic_text"
+                    android:textStyle="bold"
+                    app:addCurrency='@{"$"}'
+                    app:textChanged="@{mainViewmodel.billValueChanged}" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_billandtip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:text='@{@string/total+": "+mainViewmodel.total}'
+                    android:textAlignment="center"
+                    android:textSize="@dimen/small_text" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            app:cardCornerRadius="@dimen/default_radius"
+            app:cardElevation="@dimen/default_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin">
+
+                <TextView
+                    android:id="@+id/tv_tiptitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tip"
+                    android:textSize="@dimen/title_text"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text='@{String.format("%.0f", mainViewmodel.tip)+"%"}'
+                    android:textSize="@dimen/title_text"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/i1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_thumb_down"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_tiptitle" />
+
+                <ImageView
+                    android:id="@+id/i2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_thumb_up"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_tiptitle" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_tip"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:stepSize="1"
+                    android:value="@{mainViewmodel.tip}"
+                    android:valueFrom="0"
+                    android:valueTo="30"
+                    app:layout_constraintBottom_toBottomOf="@id/i1"
+                    app:layout_constraintEnd_toStartOf="@id/i2"
+                    app:layout_constraintStart_toEndOf="@id/i1"
+                    app:layout_constraintTop_toTopOf="@id/i1"
+                    app:sliderChanged="@{(value)-> mainViewmodel.tipValueChanged(value)}" />
+
+
+                <TextView
+                    android:id="@+id/tv_splittitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:text="@string/split"
+                    android:textSize="@dimen/title_text"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/i1" />
+
+                <TextView
+                    android:id="@+id/tv_split"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:text='@{String.format("%.0f", mainViewmodel.split)}'
+                    android:textSize="@dimen/title_text"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/i1" />
+
+                <ImageView
+                    android:id="@+id/i3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_person"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_splittitle" />
+
+                <ImageView
+                    android:id="@+id/i4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_group"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_splittitle" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_split"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:stepSize="1"
+                    android:value="@{mainViewmodel.split}"
+                    android:valueFrom="1"
+                    android:valueTo="20"
+                    app:layout_constraintBottom_toBottomOf="@id/i3"
+                    app:layout_constraintEnd_toStartOf="@id/i4"
+                    app:layout_constraintStart_toEndOf="@id/i3"
+                    app:layout_constraintTop_toTopOf="@id/i3"
+                    app:sliderChanged="@{(value)-> mainViewmodel.splitValueChanged(value)}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            app:cardCornerRadius="@dimen/default_radius"
+            app:cardElevation="@dimen/default_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card2">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin">
+
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/IconOnlyButton"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(view) -> mainViewmodel.breakdownClicked(view)}"
+                    app:icon="@drawable/ic_breakdown"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_totalperpersontitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/per_perosn"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/topic_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_totalperperson"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:text='@{""+mainViewmodel.totalPerPerson}'
+                    android:textAlignment="center"
+                    android:textSize="@dimen/default_text"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_totalperpersontitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <View
+            android:id="@+id/center"
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card3" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:onClick="@{() -> mainViewmodel.clearValues()}"
+            android:text="@string/clear"
+            app:layout_constraintEnd_toStartOf="@id/center"
+            app:layout_constraintTop_toBottomOf="@id/card3" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:onClick="@{(view) -> mainViewmodel.shareClicked(view)}"
+            android:text="@string/share"
+            app:icon="@drawable/ic_share"
+            app:iconGravity="textStart"
+            app:layout_constraintStart_toEndOf="@id/center"
+            app:layout_constraintTop_toBottomOf="@id/card3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
